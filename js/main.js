@@ -198,10 +198,7 @@ function leave() {
 
 // ---- main loop ----
 let last = performance.now();
-function frame(now) {
-  const dt = Math.min(0.05, (now - last) / 1000); last = now;
-  const sc0 = scene();
-
+function simulate(dt) {
   if (isSim() && world) {
     const me = world.players.find(p => p.id === localId);
     if (me) me.input = input.read(view, me);
@@ -231,6 +228,11 @@ function frame(now) {
     if (sendT <= 0) { sendT = 1 / 30; inp.dash = pendingDash; pendingDash = false; transport.send({ t: 'in', i: packInput(inp) }); }
     smoothMirror(mirror, dt);
   }
+}
+
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (!document.hidden) simulate(dt);
 
   const sc = scene();
   for (const pr of sc.projectiles) if (pr.w === 'rocket' && Math.random() < 0.7) rocketTrail(fx, pr);
@@ -257,6 +259,18 @@ function frame(now) {
   }
   requestAnimationFrame(frame);
 }
+
+// When the host's tab is hidden, browsers pause requestAnimationFrame and throttle timers.
+// A worker clock keeps the match running for everyone else in the room.
+let hiddenLast = performance.now();
+try {
+  const clock = new Worker(URL.createObjectURL(new Blob(['setInterval(()=>postMessage(0),16)'], { type: 'text/javascript' })));
+  clock.onmessage = () => {
+    const now = performance.now();
+    const dt = Math.min(0.05, (now - hiddenLast) / 1000); hiddenLast = now;
+    if (document.hidden && mode === 'host') { last = now; simulate(dt); }
+  };
+} catch (e) { /* no workers: host simulation pauses while hidden */ }
 
 // Animated backdrop behind the menus: a swinging warrior silhouette.
 function drawTitleBackdrop(t) {
