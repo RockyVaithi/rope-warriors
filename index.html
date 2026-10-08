@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Rope Warriors</title>
+<meta name="description" content="Fast 2D multiplayer arena shooter. Every warrior has a gun and a grappling rope.">
+<meta name="theme-color" content="#12151c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Russo+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+</head>
+<body>
+<canvas id="game"></canvas>
+<button id="btnLeave" class="leave" title="Leave (Esc)">✕</button>
+
+<section id="title" class="screen">
+  <div class="logo"><span>ROPE</span><span>WARRIORS</span></div>
+  <p class="tag">Move. Grapple. Shoot. Survive. Get more kills.</p>
+  <div class="stack">
+    <button id="btnPlay" class="big">PLAY</button>
+    <button id="btnOnline" class="big alt">PLAY ONLINE</button>
+    <div class="row2">
+      <button id="btnHowTo" class="ghost">HOW TO PLAY</button>
+      <button id="btnSettings" class="ghost">SETTINGS</button>
+    </div>
+  </div>
+  <p class="keys">A/D move · W jump · <b>Right-click hold = ROPE</b> · Left-click shoot · Space dash</p>
+</section>
+
+<section id="howto" class="screen">
+  <h2>HOW TO PLAY</h2>
+  <div class="card">
+    <p><b class="teal">The rope is everything.</b> Hold right-click (or Shift) to fire your rope at the cursor. It only sticks to <b class="teal">glowing teal surfaces</b>. Swing with A/D, reel in with W, let out with S. Let go to fly.</p>
+    <p><b>Shoot</b> with left-click. Everyone starts with a <b>pistol</b>. Grab yellow crates for a <b>shotgun</b> (huge knockback, also launches <i>you</i> in mid-air) or a <b>rocket launcher</b> (rocket-jump!).</p>
+    <p><b>Watch the pit</b> in the middle. Knock enemies into it for the kill — or swing out from under the bridge to escape.</p>
+    <p>Green cross = health. Lightning = speed boost. Most eliminations after <b>3 minutes</b> wins. Respawn takes 2 seconds.</p>
+    <p class="dim">Phone: left thumb moves (push up to jump), bottom-right drag aims &amp; fires, top-right drag fires the rope.</p>
+  </div>
+  <button class="ghost" data-back>BACK</button>
+</section>
+
+<section id="settings" class="screen">
+  <h2>SETTINGS</h2>
+  <div class="card form">
+    <label>Your name <input id="setName" maxlength="12" placeholder="Warrior" autocomplete="off"></label>
+    <div class="opt"><span>Bots</span><div class="step"><button id="setBotsMinus">−</button><b id="setBots">3</b><button id="setBotsPlus">+</button></div></div>
+    <div class="opt"><span>Sound</span><button id="setSound" class="tog">ON</button></div>
+    <div class="opt"><span>Screen shake</span><button id="setShake" class="tog">ON</button></div>
+  </div>
+  <button class="ghost" data-back>BACK</button>
+</section>
+
+<section id="online" class="screen">
+  <h2>PLAY ONLINE</h2>
+  <div class="card form">
+    <label>Your name <input id="nameOnline" maxlength="12" placeholder="Warrior" autocomplete="off"></label>
+    <button id="btnCreate" class="big">CREATE ROOM</button>
+    <div class="or">or join a friend</div>
+    <div class="joinrow"><input id="joinCode" class="code" maxlength="4" placeholder="CODE" autocomplete="off"><button id="btnJoin">JOIN</button></div>
+    <div id="onlineErr" class="err"></div>
+  </div>
+  <button class="ghost" data-back>BACK</button>
+</section>
+
+<section id="lobby" class="screen">
+  <div class="dim small">ROOM CODE</div>
+  <div id="lobbyCode" class="roomcode">----</div>
+  <button id="btnCopy" class="ghost">COPY INVITE LINK</button>
+  <div id="copyNote" class="dim small">Friends open the link or enter the code on any device.</div>
+  <div id="lobbyList" class="card list"></div>
+  <div id="hostControls" class="stack">
+    <div class="opt"><span>Bots to add</span><div class="step"><button id="botMinus">−</button><b id="botCount">3</b><button id="botPlus">+</button></div></div>
+    <button id="btnStart" class="big">START MATCH</button>
+  </div>
+  <div id="lobbyWait" class="dim">Waiting for the host to start…</div>
+  <button class="ghost" data-back>LEAVE</button>
+</section>
+
+<section id="results" class="screen">
+  <div class="dim small">MATCH OVER</div>
+  <h2 id="resTitle">YOU WIN!</h2>
+  <div id="resList" class="card list"></div>
+  <div class="stack">
+    <button id="btnAgain" class="big">PLAY AGAIN</button>
+    <div id="resWait" class="dim">Waiting for the host to start the next match…</div>
+    <button id="btnMenu" class="ghost">MAIN MENU</button>
+  </div>
+</section>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
