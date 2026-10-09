@@ -13,10 +13,10 @@ A fast 2D multiplayer arena shooter. Every warrior has a gun and a grappling rop
 |---|---|---|
 | Move | A / D | Left stick |
 | Jump / short air thrust | W | Push the left stick up |
-| Aim + shoot | Mouse + left click | Drag the bottom-right stick |
-| **Rope** (hold) | Right click (or Shift / E) | Drag the top-right stick |
+| Aim + shoot | Mouse + Space or left click (aim assist locks on) | Drag the bottom-right stick |
+| **Rope** (hold) | Right click (or E) | Drag the top-right stick |
 | Reel in / let out | W / S while roped | Left stick up / down |
-| Dash | Space | DASH button |
+| Dash | Shift (or Q) | DASH button |
 
 The rope only sticks to the **glowing teal surfaces**. Swing, let go to fly, and knock enemies into the pit in the middle.
 
