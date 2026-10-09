@@ -1,14 +1,14 @@
 // Boot, game modes (local / host / client), the main loop, camera, and menu wiring.
-import { STEP, SNAPSHOT_EVERY, MAX_PLAYERS } from './config.js';
-import { buildMap } from './map.js';
-import { createWorld, addPlayer, removePlayer, stepWorld, restartMatch } from './match.js';
-import { createPickups } from './pickups.js';
-import { createInput } from './input.js';
-import { renderScene } from './render.js';
-import { createEffects, spawnEffect, updateEffects, rocketTrail } from './effects.js';
-import { drawHUD, showScreen, renderLobby, renderResults, setText } from './ui.js';
-import { unlockAudio, setSound } from './audio.js';
-import { newRoomCode, createHostTransport, createClientTransport, packInput, unpackInput, packSnapshot, applySnapshot, smoothMirror, netAvailable } from './net.js';
+import { STEP, SNAPSHOT_EVERY, MAX_PLAYERS } from './config.js?v=3';
+import { buildMap } from './map.js?v=3';
+import { createWorld, addPlayer, removePlayer, stepWorld, restartMatch } from './match.js?v=3';
+import { createPickups } from './pickups.js?v=3';
+import { createInput } from './input.js?v=3';
+import { renderScene } from './render.js?v=3';
+import { createEffects, spawnEffect, updateEffects, rocketTrail } from './effects.js?v=3';
+import { drawHUD, showScreen, renderLobby, renderResults, setText } from './ui.js?v=3';
+import { unlockAudio, setSound } from './audio.js?v=3';
+import { newRoomCode, createHostTransport, createClientTransport, packInput, unpackInput, packSnapshot, applySnapshot, smoothMirror, netAvailable } from './net.js?v=3';
 
 const $ = id => document.getElementById(id);
 const canvas = $('game'), g = canvas.getContext('2d');
@@ -34,7 +34,7 @@ function resize() {
   canvas.width = view.W * dpr; canvas.height = view.H * dpr;
   canvas.style.width = view.W + 'px'; canvas.style.height = view.H + 'px';
   g.setTransform(dpr, 0, 0, dpr, 0, 0);
-  view.scale = Math.max(0.5, Math.min(view.W / 1150, view.H / 680));
+  view.scale = Math.max(0.45, Math.min(view.W / 1400, view.H / 820));
 }
 addEventListener('resize', resize); resize();
 
@@ -341,6 +341,6 @@ if (invite) { $('joinCode').value = invite.toUpperCase().slice(0, 4); $('btnOnli
 else showScreen('title');
 
 // debug hook for automated tests
-window.__rw = { get mode() { return mode; }, get world() { return world; }, get mirror() { return mirror; }, get localId() { return localId; }, get code() { return roomCode; } };
+window.__rw = { get mode() { return mode; }, get world() { return world; }, get mirror() { return mirror; }, get localId() { return localId; }, get code() { return roomCode; }, get view() { return view; } };
 
 requestAnimationFrame(frame);

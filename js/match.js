@@ -1,11 +1,11 @@
 // Match manager + score manager: world creation, the fixed step, timer, standings.
-import { MATCH, COLORS, MAX_PLAYERS } from './config.js';
-import { buildMap } from './map.js';
-import { createPlayer, updatePlayer } from './player.js';
-import { updateProjectiles } from './projectiles.js';
-import { updateRespawns } from './health.js';
-import { createPickups, updatePickups } from './pickups.js';
-import { updateBot, makeBotBrain } from './bots.js';
+import { MATCH, COLORS, MAX_PLAYERS } from './config.js?v=3';
+import { buildMap } from './map.js?v=3';
+import { createPlayer, updatePlayer } from './player.js?v=3';
+import { updateProjectiles } from './projectiles.js?v=3';
+import { updateRespawns } from './health.js?v=3';
+import { createPickups, updatePickups } from './pickups.js?v=3';
+import { updateBot, makeBotBrain } from './bots.js?v=3';
 
 export function createWorld() {
   const map = buildMap();

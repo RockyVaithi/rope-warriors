@@ -1,7 +1,7 @@
 // HUD (drawn on the canvas) and the DOM screens (title, online, lobby, settings, results).
-import { WEAPONS, ROPE, DASH } from './config.js';
-import { standings } from './match.js';
-import { worldToScreen } from './render.js';
+import { WEAPONS, ROPE, DASH } from './config.js?v=3';
+import { standings } from './match.js?v=3';
+import { worldToScreen } from './render.js?v=3';
 
 const FONT = '"Chakra Petch", system-ui, sans-serif';
 const fmt = s => { s = Math.max(0, Math.ceil(s)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
@@ -49,6 +49,26 @@ export function drawHUD(g, view, scene, fx, localId, mouse, isTouch) {
     if (killer) { g.fillStyle = '#9aa3b5'; g.fillText(how, x, y); x -= g.measureText(how).width; g.fillStyle = f.kc; g.fillText(killer, x, y); }
   });
   g.globalAlpha = 1;
+
+  // arrows at the screen edge pointing to enemies you can't see
+  if (me && me.alive) {
+    const m = 30;
+    for (const q of scene.players) {
+      if (q.id === localId || !q.alive) continue;
+      const s = worldToScreen(view, q.x, q.y);
+      if (s.x > 0 && s.x < W && s.y > 0 && s.y < H) continue;
+      const cx = W / 2, cy = H / 2, dx = s.x - cx, dy = s.y - cy;
+      const k = Math.min((W / 2 - m) / Math.abs(dx || 1e-6), (H / 2 - m) / Math.abs(dy || 1e-6));
+      const ax = cx + dx * k, ay = cy + dy * k, ang = Math.atan2(dy, dx);
+      const dist = Math.hypot(q.x - me.x, q.y - me.y);
+      g.save(); g.translate(ax, ay); g.rotate(ang);
+      g.globalAlpha = Math.max(0.45, Math.min(1, 900 / dist));
+      g.fillStyle = q.color; g.strokeStyle = 'rgba(11,13,18,0.9)'; g.lineWidth = 2;
+      g.beginPath(); g.moveTo(14, 0); g.lineTo(-8, -10); g.lineTo(-3, 0); g.lineTo(-8, 10); g.closePath(); g.fill(); g.stroke();
+      g.restore();
+    }
+    g.globalAlpha = 1;
+  }
 
   if (me) {
     // weapon + ammo (bottom-right, above touch sticks on phones)

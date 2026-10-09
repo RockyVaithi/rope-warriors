@@ -1,5 +1,5 @@
 // Keyboard + mouse + touch -> one input object { l, r, u, d, fire, grap, dash, aim }.
-import { screenToWorld } from './render.js';
+import { screenToWorld } from './render.js?v=3';
 
 export function createInput(canvas) {
   const keys = new Set();
@@ -11,7 +11,8 @@ export function createInput(canvas) {
   addEventListener('keydown', e => {
     if (e.target && e.target.tagName === 'INPUT') return;
     keys.add(key(e));
-    if (e.code === 'Space') { dashQueued = true; e.preventDefault(); }
+    if (e.code === 'Space') e.preventDefault();
+    if (['ShiftLeft', 'ShiftRight', 'KeyQ'].includes(e.code) && !e.repeat) dashQueued = true;
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) e.preventDefault();
   });
   addEventListener('keyup', e => keys.delete(key(e)));
@@ -56,8 +57,8 @@ export function createInput(canvas) {
     const has = (...c) => c.some(k => keys.has(k));
     inp.l = has('KeyA', 'ArrowLeft'); inp.r = has('KeyD', 'ArrowRight');
     inp.u = has('KeyW', 'ArrowUp'); inp.d = has('KeyS', 'ArrowDown');
-    inp.fire = mouse.l || has('KeyJ');
-    inp.grap = mouse.r || has('ShiftLeft', 'ShiftRight', 'KeyE', 'KeyK');
+    inp.fire = mouse.l || has('Space', 'KeyJ');
+    inp.grap = mouse.r || has('KeyE', 'KeyK');
     inp.dash = dashQueued; dashQueued = false;
     if (player && mouse.seen) {
       const w = screenToWorld(view, mouse.x, mouse.y);

@@ -1,6 +1,6 @@
 // The arena, its collision helpers, and ray casts.
 // Tile values: 0 empty, 1 solid stone (no grapple), 2 grapple surface (rope sticks).
-import { TILE } from './config.js';
+import { TILE } from './config.js?v=3';
 
 const W = 64, H = 36;
 // [x, y, w, h, type] in tiles. '#' solid, '=' grapple surface.

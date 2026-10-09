@@ -1,9 +1,9 @@
 // Player controller: arcade movement on top of the tile physics.
-import { PHYS, DASH, MATCH, WEAPONS, PICKUP } from './config.js';
-import { moveBody } from './map.js';
-import { newRope, fireRope, releaseRope, updateHook, ropeControl, ropeConstraint } from './grapple.js';
-import { tryFire } from './weapons.js';
-import { killPlayer } from './health.js';
+import { PHYS, DASH, MATCH, WEAPONS, PICKUP } from './config.js?v=3';
+import { moveBody } from './map.js?v=3';
+import { newRope, fireRope, releaseRope, updateHook, ropeControl, ropeConstraint } from './grapple.js?v=3';
+import { tryFire } from './weapons.js?v=3';
+import { killPlayer } from './health.js?v=3';
 
 export const emptyInput = () => ({ l: false, r: false, u: false, d: false, fire: false, grap: false, dash: false, aim: 0 });
 

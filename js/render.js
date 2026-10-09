@@ -1,6 +1,6 @@
 // Canvas renderer: arena, warriors, ropes, projectiles, pickups, particles.
-import { TILE, WEAPONS, PICKUP } from './config.js';
-import { tileAt } from './map.js';
+import { TILE, WEAPONS, PICKUP } from './config.js?v=3';
+import { tileAt } from './map.js?v=3';
 
 const OUTLINE = '#0b0d12';
 let mapCanvas = null;

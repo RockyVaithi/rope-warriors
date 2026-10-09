@@ -1,12 +1,12 @@
 // Simple bots: chase, shoot, grab pickups, grapple when the target is above or they are stuck.
 // They only write to p.input, exactly like a human or a network client would.
-import { ROPE, WEAPONS, TILE } from './config.js';
-import { raycast, lineOfSight, tileAtPx } from './map.js';
-import { handY } from './grapple.js';
+import { ROPE, WEAPONS, TILE } from './config.js?v=3';
+import { raycast, lineOfSight, tileAtPx } from './map.js?v=3';
+import { handY } from './grapple.js?v=3';
 
 export const makeBotBrain = () => ({
   think: 0, ropeT: 0, stuckT: 0, lastX: 0, goal: null, target: null,
-  aimNoise: 0, skill: 0.55 + Math.random() * 0.35, strafe: Math.random() < 0.5 ? -1 : 1, jumpHold: 0,
+  aimNoise: 0, skill: 0.3 + Math.random() * 0.35, strafe: Math.random() < 0.5 ? -1 : 1, jumpHold: 0,
 });
 
 const PREFERRED_RANGE = { pistol: 300, shotgun: 120, rocket: 340 };
@@ -107,9 +107,9 @@ export function updateBot(p, world, dt) {
     const tdist = Math.hypot(target.x - p.x, target.y - p.y);
     const lead = W.kind === 'rocket' ? tdist / W.speed : tdist / W.speed * 0.6;
     const tx = target.x + target.vx * lead, ty = target.y + target.vy * lead;
-    if (Math.random() < 0.2) b.aimNoise = (Math.random() - 0.5) * (1 - b.skill) * 0.7;
+    if (Math.random() < 0.2) b.aimNoise = (Math.random() - 0.5) * (1 - b.skill) * 1.0;
     inp.aim = Math.atan2(ty - handY(p), tx - p.x) + b.aimNoise;
-    inp.fire = tdist < W.range * 0.9 && Math.random() < 0.55 + b.skill * 0.4;
+    inp.fire = tdist < W.range * 0.9 && Math.random() < 0.35 + b.skill * 0.35;
     if (p.weapon === 'rocket' && tdist < 110) inp.fire = false;   // don't rocket yourself
   } else if (target) {
     inp.aim = Math.atan2(target.y - p.y, target.x - p.x);

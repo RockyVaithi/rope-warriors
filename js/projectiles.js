@@ -1,7 +1,7 @@
 // Bullets, pellets and rockets.
-import { WEAPONS } from './config.js';
-import { tileAtPx } from './map.js';
-import { applyDamage } from './health.js';
+import { WEAPONS } from './config.js?v=3';
+import { tileAtPx } from './map.js?v=3';
+import { applyDamage } from './health.js?v=3';
 
 export function spawnProjectile(world, weapon, owner, x, y, angle) {
   const W = WEAPONS[weapon];
@@ -11,6 +11,8 @@ export function spawnProjectile(world, weapon, owner, x, y, angle) {
     life: W.range,
   });
 }
+
+const ownerIsBot = (world, id) => { const o = world.players.find(q => q.id === id); return !!(o && o.bot); };
 
 function hitsPlayer(p, x, y, pad) {
   return p.alive && Math.abs(x - p.x) < p.w / 2 + pad && Math.abs(y - p.y) < p.h / 2 + pad;
@@ -48,11 +50,11 @@ export function updateProjectiles(world, dt) {
         dead = true; break;
       }
       for (const p of world.players) {
-        if (p.id === pr.owner || !hitsPlayer(p, pr.x, pr.y, W.kind === 'rocket' ? 6 : 3)) continue;
+        if (p.id === pr.owner || !hitsPlayer(p, pr.x, pr.y, W.kind === 'rocket' ? 8 : (ownerIsBot(world, pr.owner) ? 3 : 8))) continue;
         if (W.kind === 'rocket') explode(world, pr.x, pr.y, pr.owner, p);
         else {
           const sp = Math.hypot(pr.vx, pr.vy);
-          applyDamage(world, p, W.dmg, pr.owner, pr.vx / sp * W.kb, pr.vy / sp * W.kb - 40, pr.w);
+          applyDamage(world, p, W.dmg * (ownerIsBot(world, pr.owner) && !p.bot ? 0.7 : 1), pr.owner, pr.vx / sp * W.kb, pr.vy / sp * W.kb - 40, pr.w);
         }
         dead = true; break;
       }

@@ -1,7 +1,7 @@
 // Grappling rope: the signature mechanic.
 // States: 'none' -> 'flying' (hook travelling) -> 'attached' (swinging) -> 'none'.
-import { ROPE } from './config.js';
-import { raycast, moveBody } from './map.js';
+import { ROPE } from './config.js?v=3';
+import { raycast, moveBody } from './map.js?v=3';
 
 export const handY = p => p.y - 6;
 

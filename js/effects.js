@@ -1,7 +1,7 @@
 // Particles, floating damage numbers, screen shake, kill feed, and sounds — all driven by world events.
 // Runs identically on the host and on clients, so everyone sees the same feedback.
-import { sfx } from './audio.js';
-import { WEAPONS } from './config.js';
+import { sfx } from './audio.js?v=3';
+import { WEAPONS } from './config.js?v=3';
 
 export function createEffects() {
   return { parts: [], texts: [], shake: 0, feed: [], hurtT: 0, banner: null };

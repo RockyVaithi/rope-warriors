@@ -1,6 +1,6 @@
 // Health, weapon crates and speed boosts. They respawn after a short delay.
-import { PICKUP } from './config.js';
-import { giveWeapon } from './weapons.js';
+import { PICKUP } from './config.js?v=3';
+import { giveWeapon } from './weapons.js?v=3';
 
 const WEAPON_CYCLE = ['shotgun', 'rocket'];
 

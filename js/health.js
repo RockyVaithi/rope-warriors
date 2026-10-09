@@ -1,7 +1,7 @@
 // Health, damage, death and respawn.
-import { MATCH } from './config.js';
-import { releaseRope } from './grapple.js';
-import { spawnPlayer } from './player.js';
+import { MATCH } from './config.js?v=3';
+import { releaseRope } from './grapple.js?v=3';
+import { spawnPlayer } from './player.js?v=3';
 
 export function applyDamage(world, target, dmg, byId, kx, ky, cause) {
   if (!target.alive || target.invuln > 0 || world.state !== 'playing') return;
